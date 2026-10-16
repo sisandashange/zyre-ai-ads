@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#2563eb">
+
+  <title>ZYRE AI Ads Generator</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f4f7fc;
+      color: #172033;
+    }
+
+    header {
+      background: white;
+      padding: 18px;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    .brand {
+      max-width: 1100px;
+      margin: auto;
+      color: #2563eb;
+      font-size: 23px;
+      font-weight: 800;
+    }
+
+    .brand span {
+      color: #172033;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 30px 16px 20px;
+    }
+
+    .hero h1 {
+      margin-bottom: 10px;
+      font-size: 30px;
+    }
+
+    .hero h1 span {
+      color: #2563eb;
+    }
+
+    .hero p {
+      color: #64748b;
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: auto;
+      padding: 16px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 22px;
+      align-items: start;
+    }
+
+    .panel {
+      background: white;
+      padding: 22px;
+      border-radius: 16px;
+      box-shadow: 0 4px 18px rgba(20, 40, 80, 0.06);
+      min-width: 0;
+    }
+
+    .panel h2 {
+      margin-top: 0;
+      font-size: 20px;
+    }
+
+    label {
+      display: block;
+      margin: 16px 0 7px;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    input,
+    textarea,
+    select {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #d5ddeb;
+      border-radius: 9px;
+      font: inherit;
+      background: white;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 75px;
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+      outline: 2px solid #93c5fd;
+      border-color: #2563eb;
+    }
+
+    .hint {
+      color: #64748b;
+      font-size: 12px;
+      margin-top: 6px;
+    }
+
+    button {
+      border: 0;
+      border-radius: 10px;
+      padding: 13px 16px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .primary {
+      width: 100%;
+      margin-top: 20px;
+      background: #2563eb;
+      color: white;
+    }
+
+    .primary:hover {
+      background: #1d4ed8;
+    }
+
+    .secondary {
+      background: #e8efff;
+      color: #1d4ed8;
+      flex: 1;
+    }
+
+    .preview-area {
+      text-align: center;
+    }
+
+    .preview-area h2 {
+      text-align: left;
+    }
+
+    canvas {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 10px;
+      background: #eaf0fb;
+    }
+
+    .preview-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .status {
+      color: #2563eb;
+      font-size: 13px;
+      margin-top: 12px;
+      min-height: 18px;
+    }
+
+    footer {
+      padding: 25px 15px;
+      text-align: center;
+      color: #64748b;
+      font-size: 13px;
+    }
+
+    @media (max-width: 720px) {
+      .container {
+        grid-template-columns: 1fr;
+      }
+
+      .hero h1 {
+        font-size: 25px;
+      }
+
+      .panel {
+        padding: 17px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="brand">ZYRE <span>AI ADS</span></div>
+</header>
+
+<section class="hero">
+  <h1>Create Your <span>Advertisement</span></h1>
+  <p>Design promotional posters for your products and business.<br>
+     Add your details, create a design and download it.</p>
+</section>
+
+<main class="container">
+
+  <section class="panel">
+    <h2>Advertisement Details</h2>
+
+    <form id="adForm">
+
+      <label for="businessName">Business Name</label>
+      <input id="businessName" maxlength="60"
+             placeholder="e.g. ZYRE Fashion">
+
+      <label for="productName">Product or Service</label>
+      <input id="productName" maxlength="80"
+             placeholder="e.g. Premium Sneakers" required>
+
+      <label for="price">Price (R)</label>
+      <input id="price" type="number" min="0" step="0.01"
+             placeholder="599">
+
+      <label for="headline">Advertisement Headline</label>
+      <input id="headline" maxlength="80"
+             placeholder="Amazing Deals Just For You!">
+
+      <label for="description">Product Description</label>
+      <textarea id="description" maxlength="180"
+                placeholder="Describe your product or offer..."></textarea>
+
+      <label for="productImage">Upload Product Photo</label>
+      <input id="productImage" type="file"
+             accept="image/png,image/jpeg,image/webp">
+      <div class="hint">Use a clear product photo for the best result.</div>
+
+      <label for="style">Advertisement Style</label>
+      <select id="style">
+        <option value="modern">Modern Blue</option>
+        <option value="luxury">Luxury Dark</option>
+        <option value="colourful">Colourful Sale</option>
+        <option value="minimal">Minimalist</option>
+      </select>
+
+      <label for="format">Poster Format</label>
+      <select id="format">
+        <option value="square">Square — Social Media</option>
+        <option value="story">Portrait — Stories & Status</option>
+        <option value="landscape">Landscape — Wide Advert</option>
+      </select>
+
+      <button class="primary" type="submit">
+        ✨ Generate Advertisement
+      </button>
+
+    </form>
+  </section>
+
+  <section class="panel preview-area">
+    <h2>Your Advertisement Preview</h2>
+
+    <canvas id="poster" width="800" height="800">
+      Your browser does not support Canvas.
+    </canvas>
+
+    <div class="preview-actions">
+      <button class="secondary" id="downloadBtn" type="button">
+        Download PNG
+      </button>
+    </div>
+
+    <div class="status" id="status" aria-live="polite">
+      Your poster is ready to customise.
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  ZYRE AI ADS · Create. Promote. Grow.
+</footer>
+
+<script>
+  const canvas = document.getElementById("poster");
+  const ctx = canvas.getContext("2d");
+
+  const form = document.getElementById("adForm");
+  const imageInput = document.getElementById("productImage");
+  const statusBox = document.getElementById("status");
+
+  let uploadedImage = null;
+
+  const themes = {
+    modern: {
+      background: "#eaf2ff",
+      accent: "#2563eb",
+      text: "#14213d",
+      card: "#ffffff"
+    },
+    luxury: {
+      background: "#171717",
+      accent: "#eabf63",
+      text: "#ffffff",
+      card: "#292929"
+    },
+    colourful: {
+      background: "#fff0e8",
+      accent: "#ea580c",
+      text: "#431407",
+      card: "#ffffff"
+    },
+    minimal: {
+      background: "#ffffff",
+      accent: "#334155",
+      text: "#111827",
+      card: "#f1f5f9"
+    }
+  };
+
+  function getValue(id, fallback = "") {
+    return document.getElementById(id).value.trim() || fallback;
+  }
+
+  function roundedRect(x, y, w, h, r, color) {
+    ctx.fillStyle = color;
+    ctx.beginPath();
+    ctx.roundRect(x, y, w, h, r);
+    ctx.fill();
+  }
+
+  function wrapText(text, x, y, maxWidth, lineHeight, maxLines = 3) {
+    const words = String(text).split(/\s+/);
+    let line = "";
+    let lines = 0;
+
+    for (let i = 0; i < words.length; i++) {
+      const test = line ? line + " " + words[i] : words[i];
+
+      if (ctx.measureText(test).width > maxWidth && line) {
+        ctx.fillText(line, x, y);
+        y += lineHeight;
+        lines++;
+
+        if (lines >= maxLines) return y;
+
+        line = words[i];
+      } else {
+        line = test;
+      }
+    }
+
+    if (line && lines < maxLines) {
+      ctx.fillText(line, x, y);
+      y += lineHeight;
+    }
+
+    return y;
+  }
+
+  function drawImageContain(img, x, y, w, h) {
+    const scale = Math.min(w / img.width, h / img.height);
+    const dw = img.width * scale;
+    const dh = img.height * scale;
+
+    ctx.drawImage(
+      img,
+      x + (w - dw) / 2,
+      y + (h - dh) / 2,
+      dw,
+      dh
+    );
+  }
+
+  function drawPlaceholder(x, y, w, h, theme) {
+    roundedRect(x, y, w, h, 20, theme.card);
+
+    ctx.fillStyle = theme.accent;
+    ctx.textAlign = "center";
+    ctx.font = "bold 34px Arial";
+    ctx.fillText("YOUR PRODUCT", x + w / 2, y + h / 2 - 8);
+
+    ctx.font = "22px Arial";
+    ctx.fillText("Photo Preview", x + w / 2, y + h / 2 + 30);
+    ctx.textAlign = "left";
+  }
+
+  function generatePoster() {
+    const product = getValue("productName", "Your Product");
+    const business = getValue("businessName", "YOUR BUSINESS");
+    const price = getValue("price");
+    const headline = getValue("headline", "Discover Something Amazing");
+    const description = getValue(
+      "description",
+      "Quality products. Great value. Shop today!"
+    );
+
+    const theme = themes[getValue("style", "modern")];
+    const format = getValue("format", "square");
+
+    if (format === "story") {
+      canvas.width = 800;
+      canvas.height = 1200;
+    } else if (format === "landscape") {
+      canvas.width = 1200;
+      canvas.height = 800;
+    } else {
+      canvas.width = 800;
+      canvas.height = 800;
+    }
+
+    const w = canvas.width;
+    const h = canvas.height;
+    const margin = w * 0.075;
+
+    ctx.fillStyle = theme.background;
+    ctx.fillRect(0, 0, w, h);
+
+    ctx.fillStyle = theme.accent;
+    ctx.fillRect(0, 0, w, 16);
+
+    ctx.fillStyle = theme.text;
+    ctx.font = "bold 27px Arial";
+    ctx.fillText(business.toUpperCase().slice(0, 38), margin, 65);
+
+    ctx.fillStyle = theme.accent;
+    ctx.font = "bold 15px Arial";
+    ctx.fillText("SPECIAL OFFER", margin, 100);
+
+    const imageY = format === "landscape" ? 155 : 155;
+    const imageW = format === "landscape" ? w * 0.44 : w - margin * 2;
+    const imageH = format === "story" ? 470 :
+                   format === "landscape" ? 430 : 350;
+
+    if (uploadedImage) {
+      roundedRect(
+        margin, imageY, imageW, imageH, 20, theme.card
+      );
+
+      ctx.save();
+      ctx.beginPath();
+      ctx.roundRect(margin, imageY, imageW, imageH, 20);
+      ctx.clip();
+
+      drawImageContain(
+        uploadedImage,
+        margin + 10,
+        imageY + 10,
+        imageW - 20,
+        imageH - 20
+      );
+
+      ctx.restore();
+    } else {
+      drawPlaceholder(margin, imageY, imageW, imageH, theme);
+    }
+
+    let textX = margin;
+    let textY = imageY + imageH + 55;
+    let textWidth = w - margin * 2;
+
+    if (format === "landscape") {
+      textX = w * 0.55;
+      textY = 190;
+      textWidth = w * 0.38;
+    }
+
+    ctx.fillStyle = theme.text;
+    ctx.font = "bold 35px Arial";
+
+    textY = wrapText(
+      headline,
+      textX,
+      textY,
+      textWidth,
+      43,
+      3
+    );
+
+    ctx.font = "bold 26px Arial";
+    textY = wrapText(
+      product,
+      textX,
+      textY + 5,
+      textWidth,
+      33,
+      2
+    );
+
+    ctx.font = "19px Arial";
+    textY = wrapText(
+      description,
+      textX,
+      textY + 5,
+      textWidth,
+      27,
+      3
+    );
+
+    if (price !== "") {
+      ctx.fillStyle = theme.accent;
+      ctx.font = "bold 38px Arial";
+      ctx.fillText(
+        "R" + Number(price).toLocaleString("en-ZA", {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2
+        }),
+        textX,
+        Math.min(textY + 15, h - 100)
+      );
+    }
+
+    ctx.fillStyle = theme.accent;
+    roundedRect(margin, h - 75, w - margin * 2, 48, 12, theme.accent);
+
+    ctx.fillStyle = "#ffffff";
+    ctx.textAlign = "center";
+    ctx.font = "bold 19px Arial";
+    ctx.fillText("SHOP NOW", w / 2, h - 44);
+    ctx.textAlign = "left";
+
+    statusBox.textContent =
+      "Advertisement generated successfully. Download your PNG below.";
+  }
+
+  imageInput.addEventListener("change", function () {
+    const file = this.files[0];
+
+    uploadedImage = null;
+
+    if (!file) {
+      generatePoster();
+      return;
+    }
+
+    if (!["image/jpeg", "image/png", "image/webp"].includes(file.type)) {
+      statusBox.textContent = "Please choose a JPG, PNG or WebP image.";
+      this.value = "";
+      return;
+    }
+
+    if (file.size > 10 * 1024 * 1024) {
+      statusBox.textContent = "Please choose an image smaller than 10 MB.";
+      this.value = "";
+      return;
+    }
+
+    const reader = new FileReader();
+
+    reader.onload = function (event) {
+      const img = new Image();
+
+      img.onload = function () {
+        uploadedImage = img;
+        generatePoster();
+      };
+
+      img.onerror = function () {
+        statusBox.textContent = "The image could not be opened.";
+      };
+
+      img.src = event.target.result;
+    };
+
+    reader.onerror = function () {
+      statusBox.textContent = "Could not read the selected image.";
+    };
+
+    reader.readAsDataURL(file);
+  });
+
+  form.addEventListener("submit", function (event) {
+    event.preventDefault();
+    generatePoster();
+  });
+
+  document.getElementById("downloadBtn").addEventListener("click", function () {
+    try {
+      const link = document.createElement("a");
+      link.download = "zyre-advertisement.png";
+      link.href = canvas.toDataURL("image/png");
+      link.click();
+
+      statusBox.textContent = "Your advertisement PNG has been downloaded.";
+    } catch (error) {
+      statusBox.textContent = "Download failed. Please try again.";
+    }
+  });
+
+  document.getElementById("style").addEventListener("change", generatePoster);
+  document.getElementById("format").addEventListener("change", generatePoster);
+
+  generatePoster();
+</script>
+
+</body>
+</html>
